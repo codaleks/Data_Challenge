@@ -9,6 +9,10 @@ pandas = "*"
 ipykernel = "*"
 pyarrow = "*"
 tqdm = "*"
+seaborn = "*"
+torch = "*"
+torchvision = "*"
+torchaudio = "*"
 
 [dev-packages]
 
