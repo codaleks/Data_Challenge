@@ -13,6 +13,9 @@ seaborn = "*"
 torch = "*"
 torchvision = "*"
 torchaudio = "*"
+lightning = "*"
+imblearn = "*"
+mlflow = "*"
 
 [dev-packages]
 
