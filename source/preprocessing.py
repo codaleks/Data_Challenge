@@ -31,11 +31,12 @@ def visualize_pca(data):
     plt.show()
 
 
-def pca(data, n_components=0.95):
+def pca_norm(data, n_components=0.95):
     pca = PCA(n_components=n_components)
     pca.fit(data)
     X_pca = pca.transform(data)
-    print("X_pca shape :", X_pca.shape)
+    # normalize data using Z score
+    X_pca = (X_pca - X_pca.mean()) / X_pca.std()
     return X_pca
 
 
@@ -43,20 +44,3 @@ def visualize_hist(data):
     plt.hist(data)
     plt.title('Distribution of S')
     plt.show()
-
-
-def preprocessing(X, Y, S):
-    # Balance data
-    X_res, Y_res, S_res = balance_data(X, Y, S)
-
-    # Visualize distribution of data
-    # visualize_hist(S_res)
-
-    # Visualize PCA
-    # visualize_pca(X_res)
-
-    # PCA
-    X_pca = pca(X_res)
-    X_train, X_test, Y_train, Y_test, S_train, S_test = train_test_split(
-        X_pca, Y_res, S_res, test_size=0.3, random_state=42)
-    return X_train, X_test, Y_train, Y_test, S_train, S_test
