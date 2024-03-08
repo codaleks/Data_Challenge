@@ -3,25 +3,24 @@ import pytorch_lightning as pl
 
 
 class MLP(pl.LightningModule):
-    def __init__(self):
+    def __init__(self, lr=0.01, batch_size=32):
         super().__init__()
         self.MLP = nn.Sequential(
-            nn.Linear(284, 250),
+            nn.Linear(284, 64),
             nn.ReLU(),
-            nn.Linear(250, 100),
-            nn.ReLU(),
-            nn.Linear(100, 50),
-            nn.ReLU(),
-            nn.Linear(50, 28),
-            nn.Softmax(dim=1)  # Specify the dimension for Softmax
+            nn.Linear(64, 28),
+            nn.Softmax()  # Specify the dimension for Softmax
         )
+        self.lr = lr
+        self.batch_size = batch_size
         self.loss_fn = nn.CrossEntropyLoss()
 
     def forward(self, x):
-        return self.MLP(x)
+        logits = self.MLP(x)
+        return logits
 
-    def configure_optimizers(self, lr=0.01):
-        optimizer = optim.Adam(self.parameters(), lr=lr)
+    def configure_optimizers(self):
+        optimizer = optim.Adam(self.parameters(), lr=self.lr)
         return optimizer
 
     def training_step(self, batch, batch_idx):

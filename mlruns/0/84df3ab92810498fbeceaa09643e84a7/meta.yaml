@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/84df3ab92810498fbeceaa09643e84a7/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 84df3ab92810498fbeceaa09643e84a7
+run_name: incongruous-bear-269
+run_uuid: 84df3ab92810498fbeceaa09643e84a7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709888360850
+status: 1
+tags: []
+user_id: aleksander

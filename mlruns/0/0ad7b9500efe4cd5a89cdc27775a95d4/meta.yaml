@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/0ad7b9500efe4cd5a89cdc27775a95d4/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0ad7b9500efe4cd5a89cdc27775a95d4
+run_name: whimsical-koi-265
+run_uuid: 0ad7b9500efe4cd5a89cdc27775a95d4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709888004652
+status: 1
+tags: []
+user_id: aleksander

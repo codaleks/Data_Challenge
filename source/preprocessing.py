@@ -1,10 +1,5 @@
 import matplotlib.pyplot as plt
-import pickle
-import sys
-import os
-
 from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 
 
@@ -33,11 +28,12 @@ def visualize_pca(data):
 
 def pca_norm(data, n_components=0.95):
     pca = PCA(n_components=n_components)
-    pca.fit(data)
+    model = pca.fit(data)
+    # save the pca model
     X_pca = pca.transform(data)
-    # normalize data using Z score
+    # normalize the data
     X_pca = (X_pca - X_pca.mean()) / X_pca.std()
-    return X_pca
+    return X_pca, model
 
 
 def visualize_hist(data):

@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/3eec581c973748feaf0219b50e128c62/artifacts
+end_time: 1709892897420
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 3eec581c973748feaf0219b50e128c62
+run_name: magnificent-hare-655
+run_uuid: 3eec581c973748feaf0219b50e128c62
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709892693033
+status: 3
+tags: []
+user_id: aleksander

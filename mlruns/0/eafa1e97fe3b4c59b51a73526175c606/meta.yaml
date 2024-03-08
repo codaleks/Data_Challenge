@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/eafa1e97fe3b4c59b51a73526175c606/artifacts
+end_time: 1709894151436
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: eafa1e97fe3b4c59b51a73526175c606
+run_name: smiling-pig-641
+run_uuid: eafa1e97fe3b4c59b51a73526175c606
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709893953154
+status: 3
+tags: []
+user_id: aleksander

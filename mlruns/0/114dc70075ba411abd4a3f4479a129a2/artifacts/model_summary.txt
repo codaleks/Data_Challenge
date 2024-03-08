@@ -1,0 +1,13 @@
+  | Name    | Type             | Params
+---------------------------------------------
+0 | MLP     | Sequential       | 20.1 K
+1 | MLP.0   | Linear           | 18.2 K
+2 | MLP.1   | ReLU             | 0     
+3 | MLP.2   | Linear           | 1.8 K 
+4 | MLP.3   | Softmax          | 0     
+5 | loss_fn | CrossEntropyLoss | 0     
+---------------------------------------------
+20.1 K    Trainable params
+0         Non-trainable params
+20.1 K    Total params
+0.080     Total estimated model params size (MB)

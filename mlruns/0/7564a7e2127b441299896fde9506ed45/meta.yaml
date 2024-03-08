@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/7564a7e2127b441299896fde9506ed45/artifacts
+end_time: 1709893948727
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 7564a7e2127b441299896fde9506ed45
+run_name: blushing-hawk-396
+run_uuid: 7564a7e2127b441299896fde9506ed45
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709893938095
+status: 3
+tags: []
+user_id: aleksander

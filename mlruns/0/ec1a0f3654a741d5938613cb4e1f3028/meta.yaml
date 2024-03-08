@@ -1,0 +1,16 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/ec1a0f3654a741d5938613cb4e1f3028/artifacts
+deleted_time: 1709886409385
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: ec1a0f3654a741d5938613cb4e1f3028
+run_name: baseline_xlmr
+run_uuid: ec1a0f3654a741d5938613cb4e1f3028
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709886259694
+status: 1
+tags: []
+user_id: aleksander
