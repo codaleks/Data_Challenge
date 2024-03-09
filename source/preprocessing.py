@@ -1,42 +1,21 @@
-import matplotlib.pyplot as plt
 from imblearn.over_sampling import SMOTE
-from sklearn.decomposition import PCA
+from sklearn.model_selection import train_test_split
+import torch
 
 
-def balance_data(X, Y, S):
+def balance_data(X, Y):
     sm = SMOTE(random_state=42)
-    X['S'] = S
-    X.columns = X.columns.astype(str)
     X_res, Y_res = sm.fit_resample(X, Y)
-    S_res = X_res['S']
-    X_res = X_res.drop(columns=['S'])
-    return X_res, Y_res, S_res
+    return X_res, Y_res
 
+def norm(data):
+    data = (data - data.mean()) / data.std()
+    return data
 
-def visualize_pca(data):
-    pca = PCA()
-    pca.fit(data)
-    # cumulative explained variance
-    cumulative_explained_variance = pca.explained_variance_ratio_.cumsum()
-    plt.plot(cumulative_explained_variance)
-    plt.xlabel('number of components')
-    plt.ylabel('cumulative explained variance')
-    plt.title(
-        'cumulative explained variance as a function of the number of components')
-    plt.show()
-
-
-def pca_norm(data, n_components=0.95):
-    pca = PCA(n_components=n_components)
-    model = pca.fit(data)
-    # save the pca model
-    X_pca = pca.transform(data)
-    # normalize the data
-    X_pca = (X_pca - X_pca.mean()) / X_pca.std()
-    return X_pca, model
-
-
-def visualize_hist(data):
-    plt.hist(data)
-    plt.title('Distribution of S')
-    plt.show()
+def preprocess_data(X, Y):
+    X_norm = norm(X)
+    X_train, X_val, Y_train, Y_val = train_test_split(X_norm, Y, test_size=0.2, random_state=42)
+    X_res, Y_res = balance_data(X_train, Y_train)
+    inputs = torch.tensor(X_res.values).float()
+    labels = torch.tensor(Y_res.values).long()
+    return inputs, labels, X_val, Y_val

@@ -1,4 +1,5 @@
 from torch import nn, optim
+from source.evaluator import gap_eval_scores
 import pytorch_lightning as pl
 
 
@@ -31,7 +32,11 @@ class MLP(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        inputs, labels, _ = batch
+        inputs, labels, bias = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
-        self.log('test_loss', loss)
+        eval_scores, _ = gap_eval_scores(
+        outputs, labels, bias, metrics=['TPR'])
+        final_score = (eval_scores['macro_fscore'] + (1-eval_scores['TPR_GAP']))/2
+        self.log('accuracy', final_score)
+        self.log('val_loss', loss)
