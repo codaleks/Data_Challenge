@@ -25,18 +25,14 @@ class MLP(pl.LightningModule):
         return optimizer
 
     def training_step(self, batch, batch_idx):
-        inputs, labels, _ = batch
+        inputs, labels = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
         self.log('train_loss', loss)  # Automatically logs training loss
         return loss
 
     def validation_step(self, batch, batch_idx):
-        inputs, labels, bias = batch
+        inputs, labels = batch
         outputs = self(inputs)
         loss = self.loss_fn(outputs, labels)
-        eval_scores, _ = gap_eval_scores(
-        outputs, labels, bias, metrics=['TPR'])
-        final_score = (eval_scores['macro_fscore'] + (1-eval_scores['TPR_GAP']))/2
-        self.log('accuracy', final_score)
         self.log('val_loss', loss)

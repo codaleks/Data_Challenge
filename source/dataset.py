@@ -8,12 +8,6 @@ from sklearn.preprocessing import StandardScaler
 
 class CustomDataset(Dataset):
     def __init__(self, X, y, is_train=True):
-        """
-        Custom dataset that applies normalization and SMOTE (for training set).
-        :param X: Features
-        :param y: Labels
-        :param is_train: Flag to indicate if it is training data
-        """
         if is_train:
             smote = SMOTE()
             X, y = smote.fit_resample(X, y)
@@ -32,12 +26,6 @@ class CustomDataset(Dataset):
 
 
 def create_datasets(datapath, test_size=0.2):
-    """
-    Splits the data into train and validation datasets and applies preprocessing.
-    :param X: Features
-    :param y: Labels
-    :param test_size: Size of the validation set
-    """
     with open(datapath, 'rb') as handle:
         data = pd.read_pickle(handle)
     X_init = data['X_train']
@@ -48,4 +36,4 @@ def create_datasets(datapath, test_size=0.2):
         X_init, Y_init, test_size=test_size, stratify=Y_init, random_state=42)
     train_dataset = CustomDataset(X_train, y_train, is_train=True)
     val_dataset = CustomDataset(X_val, y_val, is_train=False)
-    return train_dataset, val_dataset
+    return train_dataset, val_dataset, scaler
