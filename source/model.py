@@ -9,7 +9,7 @@ class MLP(pl.LightningModule):
             nn.Linear(284, 64),
             nn.ReLU(),
             nn.Linear(64, 28),
-            nn.Softmax()  # Specify the dimension for Softmax
+            nn.Softmax(dim=1)
         )
         self.lr = lr
         self.batch_size = batch_size

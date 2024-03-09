@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/b3444f9e26844150919b664d68e791f7/artifacts
+end_time: 1709979898746
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b3444f9e26844150919b664d68e791f7
+run_name: unequaled-cub-569
+run_uuid: b3444f9e26844150919b664d68e791f7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709979700745
+status: 3
+tags: []
+user_id: Aleksander

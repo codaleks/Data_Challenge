@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aleksander/Documents/Data_Challenge/mlruns/0/94ef5004655a4ba091c07719ee340399/artifacts
+end_time: 1709980836612
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 94ef5004655a4ba091c07719ee340399
+run_name: debonair-wolf-309
+run_uuid: 94ef5004655a4ba091c07719ee340399
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1709980594860
+status: 3
+tags: []
+user_id: Aleksander
