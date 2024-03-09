@@ -20,7 +20,7 @@ torch.set_float32_matmul_precision('high')
 ###########################################
 
 datapath = "data/data-challenge-student.pickle"
-batch_size = 512
+batch_size = 256
 lr = 0.0001
 max_epochs = 100
 num_workers = 16
