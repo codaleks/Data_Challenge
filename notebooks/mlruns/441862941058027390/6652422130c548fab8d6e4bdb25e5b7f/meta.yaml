@@ -1,0 +1,15 @@
+artifact_uri: file:///a:/MSBGD/Data_Challenge/notebooks/mlruns/441862941058027390/6652422130c548fab8d6e4bdb25e5b7f/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '441862941058027390'
+lifecycle_stage: active
+run_id: 6652422130c548fab8d6e4bdb25e5b7f
+run_name: adaptable-chimp-924
+run_uuid: 6652422130c548fab8d6e4bdb25e5b7f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1710002173539
+status: 1
+tags: []
+user_id: Aleksander
