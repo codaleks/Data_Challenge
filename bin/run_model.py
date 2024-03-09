@@ -5,7 +5,6 @@ import pandas as pd
 
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from source.model import MLP
-from source.evaluator import gap_eval_scores
 from source.dataset import prepare_data
 from torch.utils.data import DataLoader
 from mlflow import MlflowClient
