@@ -7,9 +7,13 @@ class MLP(pl.LightningModule):
     def __init__(self, lr=0.01, batch_size=32):
         super().__init__()
         self.MLP = nn.Sequential(
-            nn.Linear(284, 64),
+            nn.Linear(768, 512),
             nn.ReLU(),
-            nn.Linear(64, 28),
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Linear(128, 28),
             nn.Softmax(dim=1)
         )
         self.lr = lr
@@ -32,7 +36,8 @@ class MLP(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        inputs, labels = batch
+        inputs, labels, _ = batch
         outputs = self(inputs)
-        loss = self.loss_fn(outputs, labels)
-        self.log('val_loss', loss)
+        val_loss = self.loss_fn(outputs, labels)
+        self.log('val_loss', val_loss)
+        return val_loss
