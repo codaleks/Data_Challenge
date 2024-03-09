@@ -9,11 +9,7 @@ class MLP(pl.LightningModule):
         self.MLP = nn.Sequential(
             nn.Linear(768, 512),
             nn.ReLU(),
-            nn.Linear(512, 256),
-            nn.ReLU(),
-            nn.Linear(256, 128),
-            nn.ReLU(),
-            nn.Linear(128, 28),
+            nn.Linear(512, 28),
             nn.Softmax(dim=1)
         )
         self.lr = lr

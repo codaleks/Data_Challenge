@@ -2,6 +2,7 @@ source/__pycache__/*
 .conda
 lightning_logs
 mlruns
+mlartifacts
 source/__pycache__/__init__.cpython-310.pyc
 source/__pycache__/__init__.cpython-39.pyc
 source/__pycache__/__init__.cpython-38.pyc

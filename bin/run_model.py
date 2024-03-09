@@ -29,7 +29,7 @@ num_workers = 16
 
 
 def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_workers, datapath=datapath):
-    mlflow.set_tracking_uri('http://http://127.0.0.1:5000')
+    mlflow.set_tracking_uri('http://127.0.0.1:5000')
     mlflow.pytorch.autolog()
     # Prepare the data
     train_dataset, valid_dataset, scaler = create_datasets(
