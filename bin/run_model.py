@@ -11,6 +11,8 @@ from source.model import MLP
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
 from source.evaluator import gap_eval_scores
 from pytorch_model_summary import summary
+from pytorch_lightning.callbacks import EarlyStopping
+
 
 torch.set_float32_matmul_precision('high')
 
@@ -19,9 +21,9 @@ torch.set_float32_matmul_precision('high')
 ###########################################
 
 datapath = "data/data-challenge-student.pickle"
-batch_size = 256
+batch_size = 32
 lr = 0.00001
-max_epochs = 60
+max_epochs = 200
 num_workers = 16
 
 ###########################################
@@ -39,9 +41,15 @@ def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_w
     valid_loader = DataLoader(
         valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, persistent_workers=True)
     # Initialize the Lightning module
+
+    # model = mlflow.pyfunc.load_model(
+    #    'runs:/45b0668de00745a7941c4b2e919d2d11/model')
+
+    # pytorch_model = model._model_impl.pytorch_model
+    # pytorch_model.to('cuda')
     model = MLP(lr=lr, batch_size=batch_size)
-    print(summary(model, torch.zeros((1, 768)),
-          show_input=False, show_hierarchical=True))
+    # print(summary(pytorch_model, torch.zeros((1, 768)).to('cuda'),
+    #       show_input=False, show_hierarchical=True))
 
 # Train the model.
     with mlflow.start_run():
