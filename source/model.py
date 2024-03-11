@@ -11,13 +11,10 @@ class MLP(pl.LightningModule):
     def __init__(self, lr=0.01, batch_size=32, lambda_debias=0.05):
         super().__init__()
         self.MLP = nn.Sequential(
-            nn.Linear(768, 4096),
-            nn.BatchNorm1d(4096),
+            nn.Linear(768, 256),
+            nn.BatchNorm1d(256),
             nn.ReLU(),
-            nn.Linear(4096, 2048),
-            nn.BatchNorm1d(2048),
-            nn.ReLU(),
-            nn.Linear(2048, 28),
+            nn.Linear(256, 28),
             nn.Softmax(dim=1)
         )
         self.lr = lr
