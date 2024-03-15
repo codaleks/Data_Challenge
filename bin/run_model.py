@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from source.dataset import create_datasets
 from source.model import MLP
 from pytorch_lightning.callbacks.progress import TQDMProgressBar
-from source.evaluator import gap_eval_scores
+# from source.evaluator import gap_eval_scores
 from pytorch_model_summary import summary
 from pytorch_lightning.callbacks import EarlyStopping
 
@@ -38,8 +38,8 @@ def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_w
 
     train_loader = DataLoader(
         train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, persistent_workers=True)
-    valid_loader = DataLoader(
-        valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, persistent_workers=True)
+    # valid_loader = DataLoader(
+    #     valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, persistent_workers=True)
     # Initialize the Lightning module
 #
     # model = mlflow.pyfunc.load_model(
@@ -58,32 +58,32 @@ def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_w
             max_epochs=max_epochs,
             callbacks=[TQDMProgressBar(refresh_rate=20), EarlyStopping(monitor='val_loss', patience=20)],)
 
-        trainer.fit(model, train_loader, valid_loader)
+        trainer.fit(model, train_loader)
 
-    return model, valid_loader, scaler
+    return model, scaler
 
 
-def test_model(model, val_loader):
-    # test over the whole test set
-    model.eval()
-    all_preds = []
-    all_labels = []
-    all_bias = []
-    for batch in val_loader:
-        inputs, labels, bias = batch
-        outputs = model(inputs)
-        _, predicted = torch.max(outputs, 1)
-        all_preds.append(predicted)
-        all_labels.append(labels)
-        all_bias.append(bias)
-    all_preds = torch.cat(all_preds).cpu().numpy()
-    all_labels = torch.cat(all_labels).cpu().numpy()
-    all_bias = torch.cat(all_bias).cpu().numpy()
-
-    eval_scores, _ = gap_eval_scores(
-        all_preds, all_labels, all_bias, metrics=['TPR'])
-    final_score = (eval_scores['macro_fscore'] + (1-eval_scores['TPR_GAP']))/2
-    return print(f"Final score: {final_score}", f"\n Eval Scores: {eval_scores['macro_fscore']}", f"\n TPR_GAP: {eval_scores['TPR_GAP']}")
+# def test_model(model, val_loader):
+#     # test over the whole test set
+#     model.eval()
+#     all_preds = []
+#     all_labels = []
+#     all_bias = []
+#     for batch in val_loader:
+#         inputs, labels, bias = batch
+#         outputs = model(inputs)
+#         _, predicted = torch.max(outputs, 1)
+#         all_preds.append(predicted)
+#         all_labels.append(labels)
+#         all_bias.append(bias)
+#     all_preds = torch.cat(all_preds).cpu().numpy()
+#     all_labels = torch.cat(all_labels).cpu().numpy()
+#     all_bias = torch.cat(all_bias).cpu().numpy()
+#
+#     eval_scores, _ = gap_eval_scores(
+#         all_preds, all_labels, all_bias, metrics=['TPR'])
+#     final_score = (eval_scores['macro_fscore'] + (1-eval_scores['TPR_GAP']))/2
+#     return print(f"Final score: {final_score}", f"\n Eval Scores: {eval_scores['macro_fscore']}", f"\n TPR_GAP: {eval_scores['TPR_GAP']}")
 
 
 def submission(model, scaler, datapath=datapath):
@@ -107,11 +107,10 @@ def submission(model, scaler, datapath=datapath):
 
 def main(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_workers, datapath=datapath):
 
-    # Scaler useful for the submission
     model, val_loader, scaler = train(
         batch_size, lr, max_epochs, num_workers, datapath)
 
-    test_model(model, val_loader)
+    # test_model(model, val_loader)
     submission(model, scaler, datapath)
 
 

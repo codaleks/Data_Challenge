@@ -60,13 +60,13 @@ class MLP(pl.LightningModule):
                  on_step=False, on_epoch=True, prog_bar=True)
         return loss
 
-    def validation_step(self, batch, batch_idx):
-        inputs, labels, _ = batch  # Validation step unchanged; ignores sensitive attributes
-        outputs = self(inputs)
-        val_loss = self.loss_fn(outputs, labels)
-        self.accuracy(outputs, labels)
-        self.log('val_loss', val_loss, on_step=False,
-                 on_epoch=True, prog_bar=True)
-        self.log('val_accuracy', self.accuracy(outputs, labels),
-                 on_step=False, on_epoch=True, prog_bar=True)
-        return val_loss
+    # def validation_step(self, batch, batch_idx):
+    #     inputs, labels, _ = batch  # Validation step unchanged; ignores sensitive attributes
+    #     outputs = self(inputs)
+    #     val_loss = self.loss_fn(outputs, labels)
+    #     self.accuracy(outputs, labels)
+    #     self.log('val_loss', val_loss, on_step=False,
+    #              on_epoch=True, prog_bar=True)
+    #     self.log('val_accuracy', self.accuracy(outputs, labels),
+    #              on_step=False, on_epoch=True, prog_bar=True)
+    #     return val_loss

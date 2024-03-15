@@ -35,16 +35,16 @@ class CustomDataset(Dataset):
             return self.X[idx], self.y[idx], self.S[idx]
 
 
-def create_datasets(datapath, test_size=0.2):
+def create_datasets(datapath, test_size=0.1):
     with open(datapath, 'rb') as handle:
         data = pd.read_pickle(handle)
-    X_init = data['X_train']
-    Y_init = data['Y']
-    S_init = data['S_train']
+    X_train = data['X_train']
+    Y_train = data['Y']
+    S_train = data['S_train']
     scaler = StandardScaler().fit(X_init)
     X_init = scaler.transform(X_init)
-    X_train, X_val, y_train, y_val, S_train, S_val = train_test_split(
-        X_init, Y_init, S_init, test_size=test_size, stratify=Y_init, random_state=42)
-    train_dataset = CustomDataset(X_train, y_train, S_train, is_train=True)
-    val_dataset = CustomDataset(X_val, y_val, S_val, is_train=False)
-    return train_dataset, val_dataset, scaler
+    # X_train, X_val, y_train, y_val, S_train, S_val = train_test_split(
+    #     X_init, Y_init, S_init, test_size=test_size, stratify=Y_init, random_state=42)
+    train_dataset = CustomDataset(X_train, Y_train, S_train, is_train=True)
+    # val_dataset = CustomDataset(X_val, y_val, S_val, is_train=False)
+    return train_dataset, scaler
