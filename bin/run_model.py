@@ -21,7 +21,7 @@ torch.set_float32_matmul_precision('high')
 ###########################################
 
 datapath = "data/data-challenge-student.pickle"
-batch_size = 32
+batch_size = 64
 lr = 1e-5
 max_epochs = 100
 num_workers = 16
@@ -41,21 +41,22 @@ def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_w
     valid_loader = DataLoader(
         valid_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, persistent_workers=True)
     # Initialize the Lightning module
-
-    model = mlflow.pyfunc.load_model(
-        'runs:/903fec0642754af7b038c96cf25c4e49/model')
-    pytorch_model = model._model_impl.pytorch_model
-    pytorch_model.to('cuda')
+#
+    # model = mlflow.pyfunc.load_model(
+    #     'runs:/8aa3935544764c1fab51211468c7098d/model')
+    # pytorch_model = model._model_impl.pytorch_model
+    # pytorch_model.to('cuda')
+    # print(summary(pytorch_model, torch.zeros((1, 768)).to('cuda'),
+    #       show_input=False, show_hierarchical=True))
     model = MLP(lr=lr, batch_size=batch_size)
-    print(summary(pytorch_model, torch.zeros((1, 768)).to('cuda'),
-          show_input=False, show_hierarchical=True))
-    # print(summary(model, torch.zeros(1, 768),
-    #              show_input=False, show_hierarchical=True))
+    print(summary(model, torch.zeros(1, 768),
+                  show_input=False, show_hierarchical=False))
+
 # Train the model.
     with mlflow.start_run():
         trainer = pl.Trainer(
             max_epochs=max_epochs,
-            callbacks=[TQDMProgressBar(refresh_rate=20), EarlyStopping(monitor='val_loss', patience=10)],)
+            callbacks=[TQDMProgressBar(refresh_rate=20), EarlyStopping(monitor='val_loss', patience=20)],)
 
         trainer.fit(model, train_loader, valid_loader)
 
@@ -82,7 +83,7 @@ def test_model(model, val_loader):
     eval_scores, _ = gap_eval_scores(
         all_preds, all_labels, all_bias, metrics=['TPR'])
     final_score = (eval_scores['macro_fscore'] + (1-eval_scores['TPR_GAP']))/2
-    return print(f"Final score: {final_score}")
+    return print(f"Final score: {final_score}", f"\n Eval Scores: {eval_scores['macro_fscore']}", f"\n TPR_GAP: {eval_scores['TPR_GAP']}")
 
 
 def submission(model, scaler, datapath=datapath):
