@@ -16,6 +16,7 @@ torchaudio = "*"
 lightning = "*"
 imblearn = "*"
 mlflow = "*"
+fairlearn = "*"
 
 [dev-packages]
 

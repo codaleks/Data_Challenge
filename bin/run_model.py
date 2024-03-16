@@ -23,7 +23,7 @@ torch.set_float32_matmul_precision('high')
 datapath = "data/data-challenge-student.pickle"
 batch_size = 64
 lr = 1e-5
-max_epochs = 100
+max_epochs = 50
 num_workers = 16
 
 ###########################################
@@ -56,7 +56,7 @@ def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_w
     with mlflow.start_run():
         trainer = pl.Trainer(
             max_epochs=max_epochs,
-            callbacks=[TQDMProgressBar(refresh_rate=20), EarlyStopping(monitor='val_loss', patience=20)],)
+            callbacks=[TQDMProgressBar(refresh_rate=20), EarlyStopping(monitor='val_loss', patience=10)],)
 
         trainer.fit(model, train_loader, valid_loader)
 
