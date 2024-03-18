@@ -73,6 +73,6 @@ def create_datasets(datapath, test_size=0.2):
 
     train_dataset = CustomDataset(
         X_cr_train, y_train, S_train_cr, is_train=True)
-    val_dataset = CustomDataset(X_val, y_val, S_val_cr, is_train=False)
+    val_dataset = CustomDataset(X_cr_val, y_val, S_val_cr, is_train=False)
 
     return train_dataset, val_dataset, scaler
