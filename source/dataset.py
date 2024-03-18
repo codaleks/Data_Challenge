@@ -22,7 +22,10 @@ class CustomDataset(Dataset):
             self.y = torch.tensor(y, dtype=torch.long)
             self.S = torch.from_numpy(S).long()
         else:
-            self.X = torch.from_numpy(X).float()
+            # convert series to tensor
+
+            print(type(X), type(y), type(S))
+            self.X = torch.tensor(X.values, dtype=torch.float32)
             self.y = torch.tensor(y.values, dtype=torch.long)
             self.S = torch.tensor(S.values, dtype=torch.float32)
 
@@ -45,11 +48,15 @@ def create_datasets(datapath, test_size=0.2):
 
     scaler = StandardScaler().fit(X_init)
     X_pre = scaler.transform(X_init)
-
-    X_pre = pd.DataFrame(X_pre, columns=data['X_train'].columns)
-    X_concat = pd.concat([X_pre, S_init], axis=1)
+    columns = data['X_train'].columns
+    X_pre = pd.DataFrame(X_pre, columns=columns)
+    X_pre_reset = X_pre.reset_index(drop=True)
+    S_init_reset = S_init.reset_index(drop=True)
+    X_concat = pd.concat([X_pre_reset, S_init_reset], axis=1)
+    # rename last column to gender_class
+    X_concat.columns = [*X_concat.columns[:-1], 'gender_class']
     X_train, X_val, y_train, y_val = train_test_split(
-        X_concat, Y_init, test_size=0.2, stratify=Y_init, random_state=42)
+        X_concat, Y_init, test_size=test_size, stratify=Y_init, random_state=42)
 
     X_S_train = pd.DataFrame(X_train)
     X_S_train.columns = X_S_train.columns.astype(str)
@@ -70,9 +77,12 @@ def create_datasets(datapath, test_size=0.2):
     S_val_cr = X_cr_val['gender_class']
 
     X_cr_train.drop(columns='gender_class', inplace=True)
+    X_cr_val.drop(columns='gender_class', inplace=True)
 
     train_dataset = CustomDataset(
         X_cr_train, y_train, S_train_cr, is_train=True)
-    val_dataset = CustomDataset(X_cr_val, y_val, S_val_cr, is_train=False)
+
+    val_dataset = CustomDataset(
+        X_cr_val, y_val, S_val_cr, is_train=False)
 
     return train_dataset, val_dataset, scaler

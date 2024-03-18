@@ -35,6 +35,8 @@ def train(batch_size=batch_size, lr=lr, max_epochs=max_epochs, num_workers=num_w
     # Prepare the data
     train_dataset, valid_dataset, scaler = create_datasets(
         datapath=datapath, test_size=0.2)
+    # print shape of the datasets
+    print(train_dataset.X.shape, valid_dataset.X.shape)
 
     train_loader = DataLoader(
         train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, persistent_workers=True)
