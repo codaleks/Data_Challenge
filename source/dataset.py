@@ -42,34 +42,37 @@ def create_datasets(datapath, test_size=0.2):
         X_init = data['X_train']
         Y_init = data['Y']
         S_init = data['S_train']
-    # concatenate the sensitive feature to the input features
+
     scaler = StandardScaler().fit(X_init)
-    X_init = scaler.transform(X_init)
-    X_init = pd.DataFrame(X_init, columns=data['X_train'].columns)
-    X_init = pd.concat([X_init, S_init], axis=1)
+    X_pre = scaler.transform(X_init)
 
+    X_pre = pd.DataFrame(X_pre, columns=data['X_train'].columns)
+    X_concat = pd.concat([X_pre, S_init], axis=1)
     X_train, X_val, y_train, y_val = train_test_split(
-        X_init, Y_init, test_size=0.2, stratify=Y_init, random_state=42)
+        X_concat, Y_init, test_size=0.2, stratify=Y_init, random_state=42)
 
-    columns = [str(i) for i in range(X_train.columns.shape[0]-1)]
-    columns.append('gender')
-    X_train.columns = columns
-    X_val.columns = columns
-    print("Correlation remover...")
+    X_S_train = pd.DataFrame(X_train)
+    X_S_train.columns = X_S_train.columns.astype(str)
 
-    cr = CorrelationRemover(sensitive_feature_ids=["gender"])
+    X_S_val = pd.DataFrame(X_val)
+    X_S_val.columns = X_S_val.columns.astype(str)
 
-    X_cr_train = cr.fit_transform(X_train)
-    X_cr_train = pd.DataFrame(X_cr_train, columns=columns[:-1])
-    X_cr_train.set_index(X_train.index, inplace=True)
-    X_cr_train.loc[:, "gender"] = X_train.loc[:, "gender"]
+    cr = CorrelationRemover(sensitive_feature_ids=["gender_class"])
+    X_cr_train = cr.fit_transform(X_S_train)
+    X_cr_train = pd.DataFrame(X_cr_train)
+    X_cr_train.set_index(X_S_train.index, inplace=True)
+    X_cr_train.loc[:, "gender_class"] = X_S_train.loc[:, "gender_class"]
+    X_cr_val = cr.transform(X_S_val)
+    X_cr_val = pd.DataFrame(X_cr_val)
+    X_cr_val.set_index(X_S_val.index, inplace=True)
+    X_cr_val.loc[:, "gender_class"] = X_S_val.loc[:, "gender_class"]
+    S_train_cr = X_cr_train['gender_class']
+    S_val_cr = X_cr_val['gender_class']
 
-    X_cr_val = cr.transform(X_val)
-    X_cr_val = pd.DataFrame(X_cr_val, columns=columns[:-1])
-    X_cr_val.set_index(X_val.index, inplace=True)
-    X_cr_val.loc[:, "gender"] = X_val.loc[:, "gender"]
+    X_cr_train.drop(columns='gender_class', inplace=True)
 
-    train_dataset = CustomDataset(X_train, y_train, S_train, is_train=True)
-    val_dataset = CustomDataset(X_val, y_val, S_val, is_train=False)
+    train_dataset = CustomDataset(
+        X_cr_train, y_train, S_train_cr, is_train=True)
+    val_dataset = CustomDataset(X_val, y_val, S_val_cr, is_train=False)
 
     return train_dataset, val_dataset, scaler
